@@ -1,0 +1,26 @@
+version: ‘3’
+services:
+zabbix-server:
+restart: always
+image: zabbix/zabbix-server-mysql:latest
+ports:
+— “10050:10050”
+— “10051:10051”
+environment:
+DB_SERVER_HOST: 10.0.0.158
+MYSQL_USER: "zabbix"
+MYSQL_PASSWORD: "password"
+
+zabbix-web-nginx-mysql:
+restart: always
+image: zabbix/zabbix-web-nginx-mysql:latest
+ports:
+— “80:80”
+links:
+— zabbix-server:zabbix-server
+environment:
+DB_SERVER_HOST: 10.0.0.158
+MYSQL_USER: "zabbix"
+MYSQL_PASSWORD: "password"
+ZBX_SERVER_HOST: 10.0.0.158
+PHP_TZ: "Asia/Dhaka"
